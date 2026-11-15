@@ -27,3 +27,4 @@ def student(student_id : int = Path(...,description="This is student id",example
         status_code=404,
         detail=f"Student with id '{student_id}' doesn't exist "
         )
+
