@@ -45,4 +45,19 @@ def filter_course(course:str = Query(None)):
             filtered_data.append(x)
     return filtered_data
 
+Sort_fields =["age","name"]
+Field_order =["asc","desc"]
+@app.get("/sort")
+def sort(sort_by :str ,order:str):
+    if sort_by not in Sort_fields:
+        raise HTTPException(status_code=404,detail=f"Invalid Sorting , Select Sort from {Sort_fields}")
+
+    if order not in Field_order:
+            raise HTTPException(status_code=404,detail=f"Invalid Sorting order ,Select from {Sort_fields}")
+
+    data = load_data()
+    reverse =(order =="desc")
+    sorted_students = sorted(data,key=lambda x:x[sort_by],reverse=reverse)
+
+    return sorted_students
 
