@@ -45,6 +45,8 @@ def filter_course(course:str = Query(None)):
             filtered_data.append(x)
     return filtered_data
 
+
+# Sorted
 Sort_fields =["age","name"]
 Field_order =["asc","desc"]
 @app.get("/sort")
@@ -61,3 +63,19 @@ def sort(sort_by :str ,order:str):
 
     return sorted_students
 
+
+# pagination
+@app.get("/paginate") 
+def paginate_student(page:int =Query(1,ge=1,description="Which apge you want (start from 1)") , limit : int=Query(10,ge=1,le=100,description="How many students on one page you want(start from 1) ")):
+    data = load_data()
+
+    start = (page-1)*limit
+    end = start + limit
+
+    page_student = data[start:end]
+
+    return{
+        "Page":page,
+        "Limit": limit,
+        "students" :page_student
+    }
